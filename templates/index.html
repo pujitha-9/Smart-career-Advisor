@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Smart Career Advisor</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            width: 50%;
+            margin: 50px auto;
+            background: white;
+            padding: 20px;
+            box-shadow: 0px 0px 10px 0px #aaa;
+            border-radius: 10px;
+        }
+        h2 {
+            color: #333;
+        }
+        form {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        input {
+            margin: 10px;
+            padding: 10px;
+            width: 80%;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        button {
+            background-color: #28a745;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+        button:hover {
+            background-color: #218838;
+        }
+        .auth-links {
+            margin: 15px 0;
+        }
+        .career-suggestions img {
+            width: 100%;
+            border-radius: 10px;
+        }
+        .flash {
+    padding: 10px;
+    margin: 15px auto;
+    width: 80%;
+    border-radius: 5px;
+}
+.flash.success { background-color: #d4edda; color: #155724; }
+.flash.danger { background-color: #f8d7da; color: #721c24; }
+.flash.warning { background-color: #fff3cd; color: #856404; }
+.flash.info { background-color: #d1ecf1; color: #0c5460; }
+
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Smart Career Advisor</h2>
+
+        <!-- Flash messages -->
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                {% for category, message in messages %}
+                    <div class="flash {{ category }}">{{ message }}</div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+
+        <!-- Auth links -->
+        <div class="auth-links">
+            {% if session['user_id'] %}
+                <a href="{{ url_for('logout') }}">Logout</a>
+            {% else %}
+                <a href="{{ url_for('register') }}">Register</a> |
+                <a href="{{ url_for('login') }}">Login</a>
+            {% endif %}
+        </div>
+
+        <!-- Prediction Form -->
+<form action="{{ url_for('predict') }}" method="POST">
+    <label for="skills">Your Skills:</label>
+    <input type="text" id="skills" name="skills" 
+           placeholder="e.g., Python, Public Speaking, Leadership" required>
+
+    <label for="interests">Your Interests:</label>
+    <input type="text" id="interests" name="interests" 
+           placeholder="e.g., AI, Teaching, Design" required>
+
+    <button type="submit">Get Career Suggestions</button>
+</form>
+
+
+        <!-- Placeholder Image Section -->
+        <div class="career-suggestions">
+            <h3>Career Suggestions</h3>
+            <img src="static/career_suggestions.jpg" alt="Career Suggestions">
+        </div>
+    </div>
+</body>
+</html>
